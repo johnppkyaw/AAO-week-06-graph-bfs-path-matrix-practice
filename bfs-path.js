@@ -20,7 +20,53 @@ function findNeighbors(node, matrix) {
 
 
 function bfsPath(matrix, startNode, endValue) {
-    // Your code here
+    // create path array
+    const path = [];
+
+    // create queue array and visited set
+    const queue = [];
+    const visited = new Set();
+
+    // add startNode to queue and visited and path
+    queue.push(startNode);
+    visited.add(JSON.stringify(startNode));
+    path.push(startNode);
+
+    // while queue is not empty
+    while (queue.length > 0) {
+
+        // remove first element from queue
+        const firstNode = queue.shift();
+
+
+        // check if element at that element's coordinate is endValue
+        const row = firstNode[0];
+        const col = firstNode[1];
+
+        if (matrix[row][col] === endValue) {
+            // if so, end the loop by returning the path array;
+            return path;
+        }
+
+        // add first elements neighbor's to queue
+        const neighbors = findNeighbors(firstNode, matrix);
+        neighbors.forEach(node => {
+            // if it has not been visited,
+            if(!visited.has(JSON.stringify(node))) {
+
+                //add it to visited as string
+                visited.add(JSON.stringify(node));
+
+                // push to the path array;
+                path.push(node);
+
+                //push into queue;
+                queue.push(node)
+            }
+        })
+    }
+    // return false since targetNode was not found;
+    return false;
 }
 
 
